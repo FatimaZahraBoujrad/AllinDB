@@ -1,0 +1,22 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Node and package managers
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+**/coverage/
+*.tsbuildinfo
+
+# IDE and operating system
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# Local container/database state
+*.log
