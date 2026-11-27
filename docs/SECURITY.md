@@ -14,6 +14,8 @@
 - Validate connection parameters and bound connection attempts/timeouts.
 - Avoid persisting credentials in the browser, URLs, source control, or plain-text app storage.
 - Redact credentials and connection URLs from logs, traces, exceptions, and telemetry.
+- Require verified TLS for non-loopback PostgreSQL hosts. TLS may be disabled only for loopback connections to trusted local development databases.
+- Keep target connection sessions in backend memory, allow one active session, and close it explicitly or when the API shuts down.
 - Do not expose arbitrary host connection functionality in a hosted service without controls against internal-network access and abuse.
 - Use distinct, least-privilege database roles and document required permissions.
 

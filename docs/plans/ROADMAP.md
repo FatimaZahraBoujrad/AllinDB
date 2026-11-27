@@ -1,6 +1,6 @@
 # AllinDB implementation roadmap
 
-**Status:** Milestone 1 foundation implemented; PostgreSQL connection and product features remain incomplete.
+**Status:** Milestones 1 and 2 complete; database exploration is next.
 
 ## Milestone 0 — Product and engineering baseline
 
@@ -24,12 +24,14 @@
 
 ## Milestone 2 — PostgreSQL connection session
 
-- [ ] Build connection form and connection test.
-- [ ] Implement backend connection lifecycle and safe error translation.
-- [ ] Use a least-privilege read-only demo role.
-- [ ] Ensure secrets are not persisted or logged.
+- [x] Build connection form and connection test.
+- [x] Implement backend connection lifecycle and safe error translation.
+- [x] Use the demo's least-privilege read-only role.
+- [x] Ensure secrets are not persisted or logged.
 
-**Exit gate:** valid and invalid connections are handled safely; tests cover failures and secret redaction.
+**Exit gate:** met. Valid and invalid connections are handled safely against the disposable PostgreSQL target; tests cover failures and secret redaction.
+
+**Evidence:** connection UI and `/api/connections` test/start/stop routes are implemented. Unit and API tests use fake PostgreSQL clients to cover lifecycle, input validation, error translation, TLS enforcement, and secret redaction. Manual live checks against the disposable PostgreSQL 17 demo verified the read-only role, successful test and session lifecycle, safe invalid-password handling, unreachable-host errors, and remote TLS enforcement. `npm run check`, `npm run test:e2e`, and `npm audit` pass with 0 vulnerabilities. Docker Compose was used because Podman is unavailable in the current environment; the disposable container and network were stopped after verification, and its volume was preserved.
 
 ## Milestone 3 — Database explorer
 

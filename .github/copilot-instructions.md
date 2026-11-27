@@ -12,4 +12,4 @@ AllinDB is a PostgreSQL-first developer workspace for schema exploration, SQL wo
 - Record significant architectural decisions as numbered ADRs under `docs/adr/`.
 
 ## Current stage
-The selected application stack is React + TypeScript with a NestJS + TypeScript backend and PostgreSQL target connectivity. The workspace is still project-planning only. Before adding application code, implement the first approved milestone from `docs/plans/ROADMAP.md` and establish the actual package/tool commands in the README and CI.
+The selected application stack is React + TypeScript with a NestJS + TypeScript backend and PostgreSQL target connectivity. Milestones 1 and 2 are complete; the database explorer is next. Follow `docs/plans/ROADMAP.md` and `docs/SECURITY.md`, verify milestone acceptance criteria before marking them complete, and keep the README and CI aligned with actual package/tool commands.
