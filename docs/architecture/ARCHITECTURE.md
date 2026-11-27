@@ -59,7 +59,7 @@ This stack is selected, but no application dependencies exist yet. Confirm suppo
 
 ## Initial connection lifecycle
 
-For the MVP, connection secrets should be transient and not persisted in browser storage or a product database. The backend should minimize secret lifetime and avoid logging connection URLs. The user explicitly starts and ends a connection session. Persistent encrypted connection profiles are a later feature requiring a separate threat model.
+For the MVP, connection secrets are transient and are not persisted in browser storage or a product database. The backend keeps one active target client in memory, minimizes secret lifetime, and never logs connection URLs. The user explicitly starts and ends a connection session; API shutdown also closes it. Verified TLS is required except for loopback targets used by local development. Persistent encrypted connection profiles are a later feature requiring a separate threat model.
 
 ## SQL execution path
 
@@ -75,7 +75,7 @@ Database permissions and transaction mode are primary protection. SQL parsing is
 
 ## API shape
 
-Proposed resource areas: `/health`, `/api/connections`, `/api/schemas`, `/api/tables`, `/api/query`, `/api/assistant`, and `/api/monitoring`. Final paths and response types should be documented before parallel UI/API implementation. Use NestJS DTOs as the API contract and generate or mirror frontend types in a controlled way.
+Resource areas include `/health`, `/api/connections`, `/api/schemas`, `/api/tables`, `/api/query`, `/api/assistant`, and `/api/monitoring`. Connection routes currently test via `POST /api/connections/test`, create an in-memory session via `POST /api/connections`, and close it via `DELETE /api/connections/:connectionId`. Use NestJS DTOs as the API contract and generate or mirror frontend types in a controlled way.
 
 ## Deployment boundary
 

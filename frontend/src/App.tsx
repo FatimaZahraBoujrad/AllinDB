@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ConnectionPanel } from './features/connections/ConnectionPanel'
 import './App.css'
 
 type ApiHealth = {
@@ -8,6 +9,7 @@ type ApiHealth = {
 
 function App() {
   const [apiOnline, setApiOnline] = useState<boolean | null>(null)
+  const [databaseConnected, setDatabaseConnected] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -46,8 +48,8 @@ function App() {
         </nav>
         <div className="sidebar-bottom">
           <div className="connection-card">
-            <span className="connection-dot" />
-            <div><strong>No database</strong><small>Connect in Milestone 2</small></div>
+            <span className={`connection-dot ${databaseConnected ? 'active' : ''}`} />
+            <div><strong>{databaseConnected ? 'Database connected' : 'No database'}</strong><small>{databaseConnected ? 'Session active' : 'Connect to get started'}</small></div>
           </div>
           <div className="user-chip"><span className="avatar">D</span><span>Developer workspace</span><span className="more">···</span></div>
         </div>
@@ -73,11 +75,13 @@ function App() {
             <div className="card-icon database-icon">⌘</div>
             <div className="onboarding-copy">
               <div className="card-kicker">GETTING STARTED</div>
-              <h2 id="getting-started-title">Your workspace is taking shape</h2>
-              <p>The React app and NestJS API are running. PostgreSQL connection and schema exploration are next.</p>
+              <h2 id="getting-started-title">Connect your PostgreSQL database</h2>
+              <p>Test a connection and open a temporary session. Schema exploration is next.</p>
             </div>
-            <span className="milestone-pill">MILESTONE 1</span>
+            <span className="milestone-pill">MILESTONE 2</span>
           </section>
+
+          <ConnectionPanel onConnectionChange={setDatabaseConnected} />
 
           <div className="section-heading">
             <div><h2>Workspace modules</h2><p>Tools for your day-to-day database work</p></div>
