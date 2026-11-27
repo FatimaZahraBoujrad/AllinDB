@@ -33,7 +33,7 @@ cp .env.example .env
 podman compose up -d
 ```
 
-The database binds only to `127.0.0.1:54329`. Connect using host `127.0.0.1`, port `54329`, database `allindb_demo`, and username `allindb_readonly`. The password is the `POSTGRES_READONLY_PASSWORD` value in `.env` (the checked-in example value works for the disposable demo). Select **Disable TLS (local only)** for this loopback demo; TLS is required by default for other hosts. These credentials must never be reused outside this disposable environment. PostgreSQL initialization scripts are copied into a local image to avoid host bind-mount permission issues and run only when the data volume is first created, so resetting an existing local volume is required to apply initialization changes.
+The database binds only to `127.0.0.1:54329`. Connect using host `127.0.0.1`, port `54329`, database `allindb_demo`, and username `allindb_readonly`. The password is the `POSTGRES_READONLY_PASSWORD` value in `.env` (the checked-in example value works for the disposable demo). The form disables TLS for loopback hosts and automatically requires it for other hosts. These credentials must never be reused outside this disposable environment. PostgreSQL initialization scripts are copied into a local image to avoid host bind-mount permission issues and run only when the data volume is first created, so resetting an existing local volume is required to apply initialization changes.
 
 To stop the database, run `podman compose down`. To remove the disposable database and its volume, run `podman compose down -v`.
 

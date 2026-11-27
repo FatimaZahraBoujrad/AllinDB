@@ -57,7 +57,31 @@ describe('ConnectionPanel', () => {
     expect((await screen.findByRole('status')).textContent).toContain(
       'Connection test succeeded.',
     )
+    expect(mockedTestConnection).toHaveBeenCalledWith(
+      expect.objectContaining({ sslMode: 'disable' }),
+    )
     expect(mockedCreateConnection).not.toHaveBeenCalled()
+  })
+
+  it('requires TLS automatically when the host changes from the local demo', async () => {
+    mockedTestConnection.mockResolvedValue({ status: 'connected' })
+    render(<ConnectionPanel onConnectionChange={vi.fn()} />)
+    fireEvent.change(screen.getByLabelText('Host'), {
+      target: { value: 'database.example.test' },
+    })
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'sample-password' },
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Test connection' }))
+    await screen.findByRole('status')
+
+    expect(mockedTestConnection).toHaveBeenCalledWith(
+      expect.objectContaining({
+        host: 'database.example.test',
+        sslMode: 'require',
+      }),
+    )
   })
 
   it('connects, clears the password from the form, and disconnects', async () => {
@@ -78,7 +102,7 @@ describe('ConnectionPanel', () => {
     expect(mockedCreateConnection).toHaveBeenCalledWith(
       expect.objectContaining({
         host: '127.0.0.1',
-        sslMode: 'require',
+        sslMode: 'disable',
         password: 'sample-password',
       }),
     )

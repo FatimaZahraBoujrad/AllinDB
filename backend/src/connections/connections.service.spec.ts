@@ -150,7 +150,7 @@ describe('ConnectionsService', () => {
       status: 503,
       response: {
         message:
-          'Could not reach PostgreSQL. Verify the host, port, and server availability.',
+          'Could not reach PostgreSQL. Verify the host, port, TLS settings, and server availability.',
       },
     });
 

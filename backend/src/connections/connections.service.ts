@@ -168,12 +168,12 @@ export class ConnectionsService implements OnModuleDestroy {
       code === 'ETIMEDOUT'
     ) {
       return new ServiceUnavailableException(
-        'Could not reach PostgreSQL. Verify the host, port, and server availability.',
+        'Could not reach PostgreSQL. Verify the host, port, TLS settings, and server availability.',
       );
     }
 
     return new ServiceUnavailableException(
-      'Could not establish a PostgreSQL connection. Verify the connection details and database permissions.',
+      'Could not establish a PostgreSQL connection. Verify the connection details, TLS settings, and database permissions.',
     );
   }
 }

@@ -18,7 +18,7 @@ const initialConnection: ConnectionRequest = {
   database: 'allindb_demo',
   username: 'allindb_readonly',
   password: '',
-  sslMode: 'require',
+  sslMode: 'disable',
 }
 
 export function ConnectionPanel({
@@ -50,6 +50,16 @@ export function ConnectionPanel({
     value: ConnectionRequest[Key],
   ) {
     setConnection((current) => ({ ...current, [key]: value }))
+    setErrorMessage(null)
+    setStatusMessage(null)
+  }
+
+  function updateHost(host: string) {
+    setConnection((current) => ({
+      ...current,
+      host,
+      sslMode: getDefaultSslMode(host),
+    }))
     setErrorMessage(null)
     setStatusMessage(null)
   }
@@ -138,7 +148,7 @@ export function ConnectionPanel({
               name="host"
               autoComplete="off"
               value={connection.host}
-              onChange={(event) => updateConnection('host', event.target.value)}
+              onChange={(event) => updateHost(event.target.value)}
               required
             />
           </label>
@@ -186,6 +196,7 @@ export function ConnectionPanel({
               name="password"
               type="password"
               autoComplete="off"
+              placeholder="POSTGRES_READONLY_PASSWORD from .env"
               value={connection.password}
               onChange={(event) =>
                 updateConnection('password', event.target.value)
@@ -211,9 +222,9 @@ export function ConnectionPanel({
           </label>
 
           <p className="connection-note">
-            Credentials are sent only to the local API and are not saved.
-            Disable TLS only for a trusted local database, such as the included
-            demo.
+            Credentials are sent only to the local API and are not saved. TLS
+            is disabled for loopback hosts and required automatically for
+            other hosts.
           </p>
           {errorMessage && (
             <p className="connection-message error" role="alert">
@@ -268,4 +279,13 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error
     ? error.message
     : 'The connection request could not be completed. Try again.'
+}
+
+function getDefaultSslMode(host: string): ConnectionRequest['sslMode'] {
+  const normalizedHost = host.toLowerCase().replace(/\.$/, '')
+  return normalizedHost === '127.0.0.1' ||
+    normalizedHost === 'localhost' ||
+    normalizedHost === '::1'
+    ? 'disable'
+    : 'require'
 }
